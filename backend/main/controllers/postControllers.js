@@ -1,0 +1,72 @@
+const Post = {}
+const postData = require('../respository/postRespository')
+const postRespository = require('../respository/postRespository')
+
+
+
+
+Post.CreatePost = (postData, callback) => {
+    postRespository.CreatePostData(postData , (err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else{
+            callback(null,results)
+        }
+    })
+}
+
+Post.GetAllPost = (id, callback) => {
+    postRespository.GetAllPostData(id, (err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+}
+
+Post.EditPost = (postData, callback) => {
+    postRespository.EditPostData(postData, (err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+}
+
+Post.GetPost = (id , callback) => {
+    postRespository.GetPostData(id , (err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else{
+            callback(null, results)
+        }
+    })
+}
+
+Post.DeletePost = (id,callback) => {
+    postRespository.DeletePostData(id,(err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+}
+
+
+module.exports = Post
