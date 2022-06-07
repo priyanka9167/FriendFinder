@@ -32,7 +32,7 @@ router.get('/getPostData/:id', decodeIDToken, (req, res) => {
 
     })
 
-})
+});
 
 router.post('/editpost/:id', decodeIDToken, (req, res) => {
     const postData = req.body
@@ -46,7 +46,7 @@ router.post('/editpost/:id', decodeIDToken, (req, res) => {
         }
     })
 
-})
+});
 
 router.get('/getpostdatawithid/:id', decodeIDToken, (req, res) => {
     const id = req.params.id
@@ -74,6 +74,34 @@ router.delete('/deletepost/:id' , decodeIDToken , (req,res) => {
             return res.send({ "StatusCode": "0", "msg": "Post Deleted"}) 
         }
     })
+});
+
+router.post('/likePost', decodeIDToken, (req, res) => {
+    const postData = req.body
+    postControllers.LikePost(postData, (err, results) => {
+        if (err) {
+            console.log("err", err)
+            return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
+        }
+        else {
+            return res.send({ "StatusCode": "0", "msg": "Post likes", results })
+        }
+    })
+});
+
+router.get('/postCounts', decodeIDToken, (req,res) => {
+    const postData = req.query;
+    postControllers.GetPostLikesDislikesCount(postData, (error, results) => {
+        if (error) {
+            
+            return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
+        }
+        else {
+            
+            return res.send({ "StatusCode": "0", "msg": "likes dislikes counts", results })
+        }
+    }) 
 })
 
-module.exports = router;
+
+module.exports = router

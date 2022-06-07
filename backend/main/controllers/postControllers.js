@@ -68,5 +68,31 @@ Post.DeletePost = (id,callback) => {
     })
 }
 
+Post.LikePost = (postData, callback) => {
+    postRespository.LikePostRequest(postData,(err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+};
+
+Post.GetPostLikesDislikesCount = (postData , callback) => {
+    postRespository.GetPostLikesDislikesCountRequest(postData , (err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else{
+            callback(null, results)
+        }
+    })
+}
+
+
 
 module.exports = Post

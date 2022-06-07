@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import UserImage from '../../assets/images/users/user-1.jpg';
 import { editPostWithID } from '../../services/posts/postData';
 import { headerToken } from '../Firebase';
-
+import LikesDislikes from '../LikesDislikesComponent';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Modal, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
@@ -39,10 +39,7 @@ class EditPost extends Component {
                                     <div className="user-info">
                                         <h5><a href="timeline.html" className="profile-link">{this.props.user_details.name}</a> </h5>
                                     </div>
-                                    <div className="reaction">
-                                        <a className="btn text-green"><i className="icon ion-thumbsup"></i> 0</a>
-                                        <a className="btn text-red"><i className="fa fa-thumbs-down"></i> 0</a>
-                                    </div>
+                                  <LikesDislikes post_details={modal_data}/>
                                     <div className="line-divider"></div>
 
                                     {

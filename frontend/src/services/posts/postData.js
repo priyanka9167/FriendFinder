@@ -45,7 +45,29 @@ const deletePostWithId = async (url, header) => {
     catch (err) {
         return err
     }
+};
+
+const likeUserPost = async (url, payload, header) => {
+    console.log('url', `${local_url}${url}`, header, payload)
+    try {
+        let response = await axios.post(`${local_url}${url}`, payload, header);
+        return response
+    }
+    catch (err) {
+        return err
+    }
+};
+
+const getPostCounts = async (url,  header) => {
+    console.log('url', `${local_url}${url}`, header)
+    try {
+        let response = await axios.get(`${local_url}${url}`, header);
+        return response
+    }
+    catch (err) {
+        return err
+    }
 }
 
 
-export {PostData, getUserPostData,editPostWithID, deletePostWithId}
+export {PostData, getUserPostData,editPostWithID, deletePostWithId, likeUserPost, getPostCounts}

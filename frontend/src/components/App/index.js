@@ -5,7 +5,7 @@ import ProtectedRoute from '../ProtectedRoute';
 import CreatePost from '../Posts/CreatePost';
 import ShowPostFunctional from '../Posts/ShowPost';
 import RegisterLogin from '../RegisterLogin';
-import ShowFriends from '../../FriendsComponent/ShowFriends';
+import ShowFriends from '../FriendsComponent/ShowFriends';
 
 function App(props) {
 

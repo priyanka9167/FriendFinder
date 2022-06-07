@@ -93,7 +93,7 @@ userData.CheckUserFriendStatusRequest = (userData, callback) => {
             }
             else{
                 let status = results.rows[0].status
-                console.log(status)
+                
                 callback(null, {"StatusCode":"0","msg":"AS a friend" , status})
             }
             
