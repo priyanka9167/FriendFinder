@@ -69,5 +69,16 @@ const getPostCounts = async (url,  header) => {
     }
 }
 
+const removeLikesDislikesPost = async (url, payload, header) => {
+    console.log('url', `${local_url}${url}`, header, payload)
+    try {
+        let response = await axios.put(`${local_url}${url}`, payload, header);
+        return response
+    }
+    catch (err) {
+        return err
+    }
+}
 
-export {PostData, getUserPostData,editPostWithID, deletePostWithId, likeUserPost, getPostCounts}
+
+export {PostData, getUserPostData,editPostWithID, deletePostWithId, likeUserPost, getPostCounts, removeLikesDislikesPost}

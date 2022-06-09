@@ -4,6 +4,7 @@ import { getUserDetails } from '../../selectors/user';
 import { headerToken } from '../Firebase';
 import { likeUserPost } from '../../services/posts/postData';
 import { getPostCounts } from '../../services/posts/postData';
+import {removeLikesDislikesPost} from '../../services/posts/postData';
 
 export default function LikesDislikes(props) {
 
@@ -73,7 +74,7 @@ export default function LikesDislikes(props) {
 
     }
 
-    const removeLikesDislikesPost = async(value) => {
+    const removeLikesDislikes = async(value) => {
         try{
             const header = await headerToken();
             const payload = {
@@ -84,6 +85,7 @@ export default function LikesDislikes(props) {
                 dislikes: !value ? 0 : 1,
             };
             let response = await removeLikesDislikesPost('/api/post/removelikedislike',payload, header);
+            console.log(response);
         }
         catch{
 
@@ -101,12 +103,12 @@ export default function LikesDislikes(props) {
                     (
                         <div className="reaction">
                             {
-                                checkStatus.likes ? <a className="btn text-green" onClick={() => removeLikesDislikesPost(true)}><i className="icon ion-thumbsup"></i>{count.likes_count}</a>
+                                checkStatus.likes ? <a className="btn text-green" onClick={() => removeLikesDislikes(true)}><i className="icon ion-thumbsup"></i>{count.likes_count}</a>
                                     :
                                     <a className="btn text-black" onClick={() => likesDislkesPost(true)}><i className="icon ion-thumbsup"></i>{count.likes_count}</a>
                             }
                             {
-                                checkStatus.dislikes ? <a className="btn text-red" onClick={() => removeLikesDislikesPost(false)} ><i className="fa fa-thumbs-down"></i>{count.dislikes_count}</a>
+                                checkStatus.dislikes ? <a className="btn text-red" onClick={() => removeLikesDislikes(false)} ><i className="fa fa-thumbs-down"></i>{count.dislikes_count}</a>
                                     :
                                     <a className="btn text-black" onClick={() => likesDislkesPost(false)}><i className="fa fa-thumbs-down"></i>{count.dislikes_count}</a>
                             }

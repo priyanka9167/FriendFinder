@@ -1,4 +1,5 @@
 const { response } = require('express');
+const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 const decodeIDToken = require('../config/authenticateToken').decodeIDToken;
@@ -80,11 +81,24 @@ router.post('/likePost', decodeIDToken, (req, res) => {
     const postData = req.body
     postControllers.LikePost(postData, (err, results) => {
         if (err) {
-            console.log("err", err)
+           
             return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
         }
         else {
             return res.send({ "StatusCode": "0", "msg": "Post likes", results })
+        }
+    })
+});
+
+router.put('/removelikedislike', decodeIDToken, (req, res) => {
+    const postData = req.body
+    postControllers.RemoveLikeDislikesPost(postData, (err, results) => {
+        if (err) {
+           
+            return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
+        }
+        else {
+            return res.send({ "StatusCode": "0", "msg": "Remove Post likes dislikes", results })
         }
     })
 });

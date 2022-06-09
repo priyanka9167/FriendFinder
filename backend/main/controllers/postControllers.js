@@ -91,7 +91,20 @@ Post.GetPostLikesDislikesCount = (postData , callback) => {
             callback(null, results)
         }
     })
-}
+};
+
+Post.RemoveLikeDislikesPost = (postData, callback) => {
+    postRespository.RemoveLikeDislikesPostRequest(postData,(err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+};
 
 
 
