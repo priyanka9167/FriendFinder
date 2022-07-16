@@ -31,7 +31,6 @@ class ShowPost extends Component {
             edit_data: false,
 
         }
-        console.log("show post class component", this.props);
         this.id = this.props.params.id;
     }
 
@@ -39,7 +38,16 @@ class ShowPost extends Component {
         this.PostData();
     }
 
-   
+    componentDidUpdate(prevProps)
+    {
+        if(this.props.params.id !== prevProps.params.id)
+        {
+            this.id = this.props.params.id;
+            this.PostData();
+        }
+    }
+
+
 
     PostData = async () => {
         try {
@@ -69,7 +77,6 @@ class ShowPost extends Component {
             console.error(e)
         }
 
-        console.log("userpost in post data", this.state.userPost)
     }
 
     handleClose = () => {
@@ -100,7 +107,7 @@ class ShowPost extends Component {
     }
 
     deletePost = async (id) => {
-        try{
+        try {
             console.log("post deleted");
             var header = await headerToken();
             var res = await deletePostWithId(`/api/post/deletepost/${id}`, header);
@@ -114,15 +121,14 @@ class ShowPost extends Component {
                 this.setState({ error: res.data.msg });
             }
         }
-        catch(error){
+        catch (error) {
             this.setState({ error: res.data.msg });
         }
-      
+
     }
 
     render() {
         const { modal_show, userPost, modal_data, edit_data, error } = this.state
-       
         return (
             <>
                 <Navigation></Navigation>
@@ -154,7 +160,7 @@ class ShowPost extends Component {
                                     </ul>
 
                                     <EditPost
-                                        
+
                                         modal_show={modal_show}
                                         modal_data={modal_data}
                                         post_data={this.PostData}
@@ -203,6 +209,7 @@ class ShowPost extends Component {
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -215,12 +222,11 @@ class ShowPost extends Component {
 const ShowPostFunctional = (props) => {
     const params = useParams();
     const dispatch = useDispatch();
-    const getUser = useCallback(async () => {
+    const getUser = useCallback(async (id) => {
         try {
             if (params) {
                 let header = await headerToken();
-                console.log("Show post params dispatch first", params)
-                dispatch(doFetchUserDetails(props.authuser, params.id, header));
+                dispatch(doFetchUserDetails(props.authuser, id, header));
             }
         }
         catch (err) {
@@ -228,11 +234,11 @@ const ShowPostFunctional = (props) => {
         }
     }, [])
 
- useEffect(() => {
-        getUser();
+    useEffect(() => {
+        getUser(params.id);
 
-    }, [getUser]);
-    return (
+    }, [params]);
+    return (    
         <ShowPost params={params} {...props} />
     )
 }

@@ -86,7 +86,7 @@ export default function RegisterPage(props) {
                                     <div className="form-group col-xs-12">
                                         <label htmlFor="name" className="sr-only">Name</label>
                                         <Field id="name" className="form-control input-group-lg" type="text" name="name" title="Enter Name" placeholder="Name" />
-                                        <ErrorMessage name='name' component="div" className="invalid-feedback" />
+                                        <ErrorMessage name='name' component="div" className="error" />
 
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@ export default function RegisterPage(props) {
                                     <div className="form-group col-xs-12">
                                         <label htmlFor="username" className="sr-only">Username</label>
                                         <Field id="username" className="form-control input-group-lg" type="text" name="username" title="Enter Username" placeholder="Your Username" />
-                                        <ErrorMessage name='username' component="div" className="invalid-feedback" />
+                                        <ErrorMessage name='username' component="div" className="error" />
 
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@ export default function RegisterPage(props) {
                                     <div className="form-group col-xs-12">
                                         <label htmlFor="email" className="sr-only">Email</label>
                                         <Field id="email" className="form-control input-group-lg" type="text" name="email" title="Enter Email" placeholder="Your Email" />
-                                        <ErrorMessage name='email' component="div" className="invalid-feedback" />
+                                        <ErrorMessage name='email' component="div" className="error" />
 
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@ export default function RegisterPage(props) {
                                     <div className="form-group col-xs-12">
                                         <label htmlFor="password" className="sr-only">Password</label>
                                         <Field id="password" className="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password" />
-                                        <ErrorMessage name='password' component="div" className="invalid-feedback" />
+                                        <ErrorMessage name='password' component="div" className="error" />
 
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@ export default function RegisterPage(props) {
                                     <div className="form-group col-xs-12">
                                         <label htmlFor="confirm_password" className="sr-only">Confirm Password</label>
                                         <Field id="confirm_password" className="form-control input-group-lg" type="password" name="confirm_password" title="Enter confirm password" placeholder="confirm password" />
-                                        <ErrorMessage name='confirm_password' component="div" className="invalid-feedback" />
+                                        <ErrorMessage name='confirm_password' component="div" className="error" />
 
                                     </div>
                                 </div>

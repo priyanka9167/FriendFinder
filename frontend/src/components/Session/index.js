@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUser, headerToken } from "../Firebase";
-import { doFetchUserDetails, doRemoveUser } from '../../action-initiators/simpleAction';
+import { doFetchUserDetails, doRemoveUser, doFetchAuthUserDetails } from '../../action-initiators/simpleAction';
 import { getUserDetails, getFetchError } from "../../selectors/user";
 
 export const useAuthListener = () => {
@@ -24,7 +24,7 @@ export const useAuthListener = () => {
                 let id = authuser.uid;
             
                 let header = await headerToken();
-              
+                dispatch(doFetchAuthUserDetails(authuser, id, header));
                 dispatch(doFetchUserDetails(authuser, id, header));
 
             }

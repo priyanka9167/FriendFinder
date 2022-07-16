@@ -1,5 +1,4 @@
 const { response } = require('express');
-const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 const decodeIDToken = require('../config/authenticateToken').decodeIDToken;
@@ -81,7 +80,7 @@ router.post('/likePost', decodeIDToken, (req, res) => {
     const postData = req.body
     postControllers.LikePost(postData, (err, results) => {
         if (err) {
-           
+           console.log("err",err)
             return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
         }
         else {
@@ -115,7 +114,34 @@ router.get('/postCounts', decodeIDToken, (req,res) => {
             return res.send({ "StatusCode": "0", "msg": "likes dislikes counts", results })
         }
     }) 
-})
+});
+
+router.post('/commentpost', decodeIDToken, (req, res) => {
+    const postData = req.body
+    postControllers.AddComments(postData, (err, results) => {
+        if (err) {
+           console.log("err",err)
+            return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
+        }
+        else {
+            return res.send({ "StatusCode": "0", "msg": "Comment added", results })
+        }
+    })
+});
+
+router.get('/post_comments/:id', decodeIDToken, (req,res) => {
+    const postId = req.params.id;
+    postControllers.GetPostComments(postId, (error, results) => {
+        if (error) {
+            
+            return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
+        }
+        else {
+            
+            return res.send({ "StatusCode": "0", "msg": "comments data", results })
+        }
+    }) 
+});
 
 
 module.exports = router

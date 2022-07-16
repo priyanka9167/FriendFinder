@@ -9,7 +9,7 @@ import SignOutButton from '../SignOut';
 
 function Navigation() {
 
-  const { authuser, user_details } = useSelector(state => getUserDetails(state));
+  const { authuser, user_details, authuser_details } = useSelector(state => getUserDetails(state));
 
   return (
     <>
@@ -36,7 +36,10 @@ function Navigation() {
                 <span className="icon-bar"></span>
               </button> */}
              <SignOutButton/>
-             <Link to={`/content/${authuser.uid}`}><button className="btn btn-primary">Profile</button></Link>
+             <Link to={`/content/${authuser.uid}`}>
+             <img src={authuser_details.image} alt="" className="profile-photo-sm profile-image-nav" />
+
+             </Link>
             </div>
 
 

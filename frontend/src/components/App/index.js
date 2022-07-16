@@ -21,8 +21,8 @@ function App(props) {
         <Route exact path='/friends/:id' element={<ProtectedRoute/>}>
           <Route exact path='/friends/:id' element={<ShowFriends/>}/>
         </Route>
-        <Route exact path='/create_post' element={<CreatePost/>}>
-          <Route exact path='/create_post' element={<CreatePost/>}/>
+        <Route exact path='/create-post' element={<ProtectedRoute/>}>
+          <Route exact path='/create-post' element={<CreatePost/>}/>
         </Route>
 
         <Route exact path='/account/register-login' element={<RegisterLogin/>}/>

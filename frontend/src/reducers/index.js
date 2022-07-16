@@ -3,8 +3,11 @@ import userReducer from "./user";
 import friendReducer from "./friends";
 
 const rootReducer = combineReducers({
+  
     userState:userReducer,
-    friendState:friendReducer
+    friendState:friendReducer,
+   
+   
 });
 
 export default rootReducer;

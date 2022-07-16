@@ -68,44 +68,23 @@ postData.DeletePostData = (id, callback) => {
 }
 
 postData.LikePostRequest = (postData, callback) => {
-    const { post_id, sourceid, targetid, likes, dislikes } = postData
     const date = new Date();
-    pool.query(`SELECT EXISTS(SELECT 1 FROM likes_dislikes WHERE post_id = $1 AND sourceid = $2 AND targetid = $3 )`, [post_id, sourceid, targetid], (error, results) => {
-        let if_exists = results.rows[0].exists;
-        console.log("like dislikes results", if_exists);
+    const { post_id, sourceid, targetid, likes, dislikes } = postData;
+    pool.query(`INSERT INTO likes_dislikes (post_id,sourceid,targetid,likes,dislikes,createdate) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT ON CONSTRAINT post_source_target DO UPDATE SET likes = EXCLUDED.likes ,dislikes = EXCLUDED.dislikes ,updatedate = EXCLUDED.createdate`, [post_id, sourceid, targetid, likes, dislikes, date], (error, results) => {
         if (error) {
-            callback(error);
-        } else {
-            if (if_exists) {
-                pool.query(`UPDATE likes_dislikes SET likes = $1, dislikes = $2 ,updatedate = $3  WHERE post_id = $4 AND sourceid = $5 AND targetid = $6`, [likes, dislikes, date, post_id, sourceid, targetid], (error, results) => {
-                    if (error) {
-                        callback(error);
-                    }
-                    else {
-                        callback(null, results);
-                    }
-                })
-            }
-            else {
-                pool.query(`INSERT INTO likes_dislikes (post_id, sourceid, targetid, likes,dislikes,createdate) VALUES ($1, $2, $3, $4, $5, $6)`, [post_id, sourceid, targetid, likes, dislikes, date], (error, results) => {
-                    if (error) {
-                        callback(error)
-                    }
-                    else {
-                        callback(null, results)
-                    }
-                })
-            }
-
+            callback(error)
+            console.log("likes and dislikes", error)
         }
-
-
-    });
+        else {
+            callback(null, results)
+        }
+    })
 
 };
 
 postData.GetPostLikesDislikesCountRequest = (postData, callback) => {
     const { post_id, auth_id, user_id } = postData;
+    console.log(post_id, auth_id, user_id)
     pool.query(`SELECT COUNT(*) as total, (SELECT COUNT(*) from likes_dislikes WHERE post_id = $1 AND likes = 1) as count_likes, (SELECT COUNT(*) from likes_dislikes WHERE post_id = $1 AND dislikes = 1) as count_dislikes, (SELECT likes from likes_dislikes WHERE post_id = $1 AND sourceid = $2 AND targetid = $3 AND likes = 1) as likes, (SELECT dislikes from likes_dislikes WHERE post_id = $1 AND sourceid = $2 AND targetid = $3 AND dislikes = 1) as dislikes from likes_dislikes`, [post_id, auth_id, user_id], (error, results) => {
         console.log("results like dislikes", results, error);
         if (error) {
@@ -119,16 +98,59 @@ postData.GetPostLikesDislikesCountRequest = (postData, callback) => {
 };
 
 postData.RemoveLikeDislikesPostRequest = (postData, callback) => {
-    const { post_id, sourceid, targetid, likes, dislikes } = postData;
+
     const date = new Date();
-    pool.query(`UPDATE likes_dislikes SET likes = $1, dislikes = $2 ,updatedate = $3  WHERE post_id = $4 AND sourceid = $5 AND targetid = $6`, [likes, dislikes, date, post_id, sourceid, targetid], (error, results) => {
-        console.log("type of", error, typeof date, date)
+    if ('likes' in postData) {
+        const { post_id, sourceid, targetid, likes } = postData;
+        pool.query(`UPDATE likes_dislikes SET likes = $1 ,updatedate = $2  WHERE post_id = $3 AND sourceid = $4 AND targetid = $5`, [likes, date, post_id, sourceid, targetid], (error, results) => {
+
+            if (error) {
+                callback(error)
+            }
+            else {
+                callback(null, results)
+            }
+        })
+    }
+    else {
+        const { post_id, sourceid, targetid, dislikes } = postData;
+        pool.query(`UPDATE likes_dislikes SET  dislikes = $1 ,updatedate = $2  WHERE post_id = $3 AND sourceid = $4 AND targetid = $5`, [dislikes, date, post_id, sourceid, targetid], (error, results) => {
+
+            if (error) {
+                callback(error)
+            }
+            else {
+                callback(null, results)
+            }
+        })
+    }
+
+}
+
+
+postData.AddCommentsRequest = (postData, callback) => {
+    const { id, comments, post_id } = postData;
+    const date = new Date();
+    pool.query(`INSERT INTO post_comments (message,createdat,source_id,post_id) VALUES ($1, $2, $3, $4)`, [comments, date, id, post_id], (error, results) => {
         if (error) {
-            callback(error)
+            callback(error);
         }
         else {
-            callback(null, results)
+            callback(null, results);
         }
+
+    })
+}
+
+postData.GetPostCommentsRequest = (postId, callback) => {
+    pool.query(`SELECT p.message,u.username,u.image from post_comments p,users u WHERE p.post_id = $1 AND p.source_id = u.id ORDER BY p.createdat`, [postId], (error, results) => {
+        if (error) {
+            callback(error);
+        }
+        else {
+            callback(null, results);
+        }
+
     })
 }
 

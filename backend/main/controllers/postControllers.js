@@ -106,6 +106,32 @@ Post.RemoveLikeDislikesPost = (postData, callback) => {
     })
 };
 
+Post.AddComments = (postData, callback) => {
+    postRespository.AddCommentsRequest(postData,(err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+};
+
+Post.GetPostComments = (postId, callback) => {
+    postRespository.GetPostCommentsRequest(postId,(err,results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+};
+
 
 
 module.exports = Post

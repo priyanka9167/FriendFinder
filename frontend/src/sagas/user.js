@@ -9,7 +9,8 @@ function* handleUserDetails(action) {
         const response = yield call(userData, `/api/users/getUserData/${query}`, header);
         console.log("saga response", response);
         if (response.data.StatusCode === '0') {
-            yield put(doADDUserDetails(action.authuser,response?.data?.results?.rows[0]))
+            yield put(doADDUserDetails(action.authuser,response?.data?.results?.rows[0]));
+          
         }
         else {
             yield put(doFetchErrorUser(response.data.msg))

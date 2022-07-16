@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { doFetchUserDetails, doFetchErrorUser, doFetchUserFriendStatus, doFetchFriendStatusError } from '../../action-initiators/simpleAction';
+import { doFetchUserDetails, doFetchErrorUser, doFetchUserFriendStatus, doFetchFriendStatusError,doFetchAuthUserDetails } from '../../action-initiators/simpleAction';
 import { connect } from 'react-redux';
 import { getUserDetails, getFetchError } from '../../selectors/user';
 import { getFriendStatus, getFriendStatusError } from '../../selectors/friends';
@@ -81,11 +81,13 @@ class TImelineHeader extends Component {
                     var response = await updateUserProfile('/api/users/update_profile', payload, header);
                     if (response?.data?.StatusCode === '0') {
                         this.props.onFetchUserDetails(this.props.authuser, id, header);
+                        this.props.onFetchAuthUserDetails(this.props.authuser, id, header);
                         this.setState({
                             file_profile: file,
                             imagePreviewUrl_profile: reader.result,
                             error_profile: null
                         });
+
 
                         // await this.props.getuserdata(this.props.authuser);
                         // console.log("authenication get user data run")
@@ -258,6 +260,7 @@ class TImelineHeader extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
     onFetchUserDetails: (authuser, query, header) => dispatch(doFetchUserDetails(authuser, query, header)),
+    onFetchAuthUserDetails:(authuser,query,header) => dispatch(doFetchAuthUserDetails(authuser,query,header)),
     onFetchUserError: (error) => dispatch(doFetchErrorUser(error)),
     onFetchUserFriendStatus: (params, header) => dispatch(doFetchUserFriendStatus(params, header)),
     onFetchUserFriendStatusError: (error) => dispatch(doFetchFriendStatusError(error))

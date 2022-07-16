@@ -6,6 +6,8 @@ import { headerToken } from '../Firebase';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { PostData } from '../../services/posts/postData'
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserDetails } from '../../selectors/user';
 
 
 
@@ -41,6 +43,9 @@ function CreatePost(props) {
         "image/gif",
         "image/png"
     ];
+
+    const { authuser, user_details, authuser_details } = useSelector(state => getUserDetails(state));
+
 
     const PostValidation = Yup.object().shape({
         caption: Yup
@@ -123,7 +128,7 @@ function CreatePost(props) {
                                                         setPreview({ ...preview, showPreviewContent: false });
                                                         const base64_image = await convertImage(fileimage_ref.current.files[0]);
                                                         const payload = {
-                                                            id: props.user_details.id,
+                                                            id: authuser_details.id,
                                                             message: fields.caption,
                                                             image: base64_image
                                                         }
@@ -166,17 +171,17 @@ function CreatePost(props) {
                                                     <Form name="registration_form" id="registration_form" className="form-inline">
                                                         <div className="col-md-6 col-sm-7">
                                                             <div className="form-group">
-                                                                <img src={props.user_details.image} alt="" className="profile-photo-md" />
+                                                                <img src={authuser_details.image} alt="" className="profile-photo-md" />
                                                                 <Field component="textarea" id="caption" className="form-control input-group-lg" type="text" name="caption" title="Enter Caption" placeholder="Your Caption" />
                                                             </div>
-                                                            <ErrorMessage name='caption' component="div" className="invalid-feedback" />
+                                                            <ErrorMessage name='caption' component="div" className="error" />
                                                         </div>
                                                         <div className="col-md-6 col-sm-5">
                                                             <div className="tools">
                                                                 <ul className="publishing-tools list-inline">
                                                                     <Field id='image_file' innerRef={fileimage_ref} name='image_file' className="ion-compose" type='file'>
                                                                     </Field>
-                                                                    <ErrorMessage name='image_file' component="div" className="invalid-feedback" />
+                                                                    <ErrorMessage name='image_file' component="div" className="error" />
                                                                 </ul>
                                                                 <button type='submit' className="btn btn-primary pull-right" onClick={() => setPreview({ ...preview, previewTab: false })}>Publish</button>
                                                                 <button type='submit' onClick={() => setPreview({ ...preview, previewTab: true })} className="btn btn-primary pull-right">Preview</button>
@@ -198,7 +203,7 @@ function CreatePost(props) {
                                     <div className="post-content" >
                                         <img src={previewData.image_url} alt="post-image" className="img-responsive post-image" />
                                         <div className="post-container">
-                                            <img src={props.user_details.image} alt="user" className="profile-photo-md pull-left" />
+                                            <img src={authuser_details.image} alt="user" className="profile-photo-md pull-left" />
                                             <div className="post-detail">
                                                 <div className="user-info">
                                                     <h5><a href="timeline.html" className="profile-link">Sarah Cruiz</a> <span className="following">following</span></h5>

@@ -52,13 +52,19 @@ export default function LikesDislikes(props) {
     const likesDislkesPost = async (value) => {
         try {
             const header = await headerToken();
-            const payload = {
+            const payload = value ? {
                 post_id: post_id,
                 sourceid: auth_id,
                 targetid: user_id,
-                likes: value ? 1 : 0,
-                dislikes: !value ? 1 : 0,
-            };
+                likes: 1,
+                dislikes:0
+            }: {
+                post_id: post_id,
+                sourceid: auth_id,
+                targetid: user_id,
+                likes:0,
+                dislikes: 1, 
+            }
             let response = await likeUserPost('/api/post/likePost', payload, header);
             if (response.data.StatusCode === "0") {
                 await getPostLikesDislikesCount();
@@ -77,18 +83,28 @@ export default function LikesDislikes(props) {
     const removeLikesDislikes = async(value) => {
         try{
             const header = await headerToken();
-            const payload = {
+            const payload = value ? {
                 post_id: post_id,
                 sourceid: auth_id,
                 targetid: user_id,
-                likes: value ? 0 : 1,
-                dislikes: !value ? 0 : 1,
-            };
+                likes: 0,
+               
+            }:{
+                post_id: post_id,
+                sourceid: auth_id,
+                targetid: user_id,
+               dislikes: 0,
+            }
             let response = await removeLikesDislikesPost('/api/post/removelikedislike',payload, header);
-            console.log(response);
+            if (response.data.StatusCode === "0") {
+                await getPostLikesDislikesCount();
+            }
+            else {
+                setError(response.data.msg)
+            }
         }
-        catch{
-
+        catch(error){
+            setError(error);
         }
     }
 

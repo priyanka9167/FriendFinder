@@ -80,5 +80,26 @@ const removeLikesDislikesPost = async (url, payload, header) => {
     }
 }
 
+const postComment = async (url, payload, header) => {
+    console.log('url', `${local_url}${url}`, header, payload)
+    try {
+        let response = await axios.post(`${local_url}${url}`, payload, header);
+        return response
+    }
+    catch (err) {
+        return err
+    }
+};
 
-export {PostData, getUserPostData,editPostWithID, deletePostWithId, likeUserPost, getPostCounts, removeLikesDislikesPost}
+const getPostComments = async (url,  header) => {
+    console.log('url', `${local_url}${url}`, header)
+    try {
+        let response = await axios.get(`${local_url}${url}`, header);
+        return response
+    }
+    catch (err) {
+        return err
+    }
+}
+
+export {PostData, getUserPostData,editPostWithID, deletePostWithId, likeUserPost, getPostCounts, removeLikesDislikesPost, postComment, getPostComments}
