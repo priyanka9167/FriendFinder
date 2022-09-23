@@ -40,7 +40,7 @@ const removeUser = (state, action) => ({
 })
 
 function userReducer(state = userInitialState, action) {
-    console.log("action in reducers-2", action)
+    console.log("action in reducers-2 user", action)
     switch (action.type) {
         case USER_ADD: {
             return applyAddUserDetails(state, action)

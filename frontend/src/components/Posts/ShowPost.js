@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useParams } from 'react-router-dom';
 import { getUserPostData } from '../../services/posts/postData';
 import Navigation from '../Navigation';
-import TImelineHeader from '../TimeLine/TImelineHeader';
+import WrappedComponentTimelineHeader from '../TimeLine/TImelineHeader';
 import { getUserDetails, getFetchError } from '../../selectors/user';
 import EditPost from './EditPost';
 import { connect } from 'react-redux';
@@ -31,7 +31,7 @@ class ShowPost extends Component {
             edit_data: false,
 
         }
-        this.id = this.props.params.id;
+        this.username = this.props.params.username;
     }
 
     componentDidMount() {
@@ -40,9 +40,9 @@ class ShowPost extends Component {
 
     componentDidUpdate(prevProps)
     {
-        if(this.props.params.id !== prevProps.params.id)
+        if(this.props.params.username !== prevProps.params.username)
         {
-            this.id = this.props.params.id;
+            this.username = this.props.params.username;
             this.PostData();
         }
     }
@@ -52,8 +52,9 @@ class ShowPost extends Component {
     PostData = async () => {
         try {
             var header = await headerToken();
-            var res = await getUserPostData(`/api/post/getPostData/${this.id}`, header);
-            console.log("res", res)
+            console.log("show post post data",this.props)
+            var res = await getUserPostData(`/api/post/getPostData/${this.username}`, header);
+            console.log("res show", res)
             if (res.data.StatusCode === "0") {
                 if (res.data.results.rows.length === 0) {
                     this.setState({ error: "Please Post something" })
@@ -135,7 +136,7 @@ class ShowPost extends Component {
                 <div className="container">
                     <div className="timeline">
                         <div className="timeline-cover">
-                            <TImelineHeader></TImelineHeader>
+                            <WrappedComponentTimelineHeader></WrappedComponentTimelineHeader>
                         </div>
                         <div id="page-contents">
                             <div className="row">
@@ -222,11 +223,11 @@ class ShowPost extends Component {
 const ShowPostFunctional = (props) => {
     const params = useParams();
     const dispatch = useDispatch();
-    const getUser = useCallback(async (id) => {
+    const getUser = useCallback(async (username) => {
         try {
             if (params) {
                 let header = await headerToken();
-                dispatch(doFetchUserDetails(props.authuser, id, header));
+                dispatch(doFetchUserDetails(props.authuser, {username:username}, header));
             }
         }
         catch (err) {
@@ -235,7 +236,7 @@ const ShowPostFunctional = (props) => {
     }, [])
 
     useEffect(() => {
-        getUser(params.id);
+        getUser(params.username);
 
     }, [params]);
     return (    

@@ -50,10 +50,22 @@ router.post('/sign-in', decodeIDToken, (req, res) => {
   
 });
 
-router.get('/getUserData/:id',decodeIDToken,(req,res) => {
+router.get('/getUserDataUsingId/:id',decodeIDToken,(req,res) => {
     const id = req.params.id;
-    console.log("users", id)
-    userController.GetUserData(id, (err,results) => {
+    userController.GetUserDataId(id, (err,results) => {
+        if(err)
+        {
+            return res.send({err,"StatusCode":"2","msg":"Something Went Wrong"})
+        }
+        else{
+            return res.send({"StatusCode":"0","msg":"User details" , results}) 
+        }
+    })  
+});
+
+router.get('/getUserDataUsingUsername/:username',decodeIDToken,(req,res) => {
+    const username = req.params.username;
+    userController.GetUserDataUsername(username, (err,results) => {
         if(err)
         {
             return res.send({err,"StatusCode":"2","msg":"Something Went Wrong"})
@@ -132,10 +144,10 @@ router.get('/getUserFriendStatus', decodeIDToken,(req,res,next) => {
 
 });
 
-router.get('/friend_list/:id', decodeIDToken,(req,res) => {
-    const id = req.params.id;
-    console.log("users friends details", id)
-    userController.GetUserFriendData(id, (err,results) => {
+router.get('/friend_list/:username', decodeIDToken,(req,res) => {
+    const username = req.params.username;
+    console.log("users friends details", username)
+    userController.GetUserFriendData(username, (err,results) => {
         if(err)
         {
             return res.send({err,"StatusCode":"2","msg":"Something Went Wrong"})
@@ -159,6 +171,33 @@ router.delete('/remove_friend/:id' , decodeIDToken , (req,res) => {
             return res.send({ "StatusCode": "0", "msg": "Friend Removed", results}); 
         }
     })
-})
+});
+
+router.get('/getFeedData/:id', decodeIDToken,(req,res) => {
+    const id = req.params.id;
+    console.log("feed", id)
+    userController.GetFeedData(id, (err,results) => {
+        if(err)
+        {
+            return res.send({err,"StatusCode":"2","msg":"Something Went Wrong"})
+        }
+        else{
+            return res.send({"StatusCode":"0","msg":"Feeds details" , results}) 
+        }
+    })  
+});
+
+router.get('/getFollowerCount/:id', decodeIDToken,(req,res) => {
+    const id = req.params.id;
+    userController.GetFollowerCount(id, (err,results) => {
+        if(err)
+        {
+            return res.send({err,"StatusCode":"2","msg":"Something Went Wrong"})
+        }
+        else{
+            return res.send({"StatusCode":"0","msg":"Follower count" , results}) 
+        }
+    })  
+});
 
 module.exports = router;

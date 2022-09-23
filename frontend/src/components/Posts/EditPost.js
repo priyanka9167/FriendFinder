@@ -40,7 +40,7 @@ class EditPost extends Component {
                                     <div className="user-info">
                                         <h5><a href="timeline.html" className="profile-link">{this.props.user_details.name}</a> </h5>
                                     </div>
-                                    <LikesDislikes post_details={modal_data} />
+                                    <LikesDislikes post_details={modal_data.id} />
                                     <div className="line-divider"></div>
 
                                     {

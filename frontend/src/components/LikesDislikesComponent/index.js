@@ -23,7 +23,7 @@ export default function LikesDislikes(props) {
     const { authuser, user_details } = useSelector(state => getUserDetails(state));
     const auth_id = authuser.uid;
     const user_id = user_details.id;
-    const post_id = props.post_details.id;
+    const post_id = props.post_details;
 
     const getPostLikesDislikesCount = async () => {
         try {

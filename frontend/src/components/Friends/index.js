@@ -1,23 +1,33 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { doFetchUserFriendStatus , doFetchFriendStatusError } from '../../action-initiators/simpleAction';
-import { userFriendStatus } from '../../services/User/userData';
+import { getFriendStatus, getFriendStatusError } from '../../selectors/friends';
+import { getUserDetails } from '../../selectors/user';
 import { headerToken } from '../Firebase';
 
-export const useFriends = (auth, user) => {
+export const useFriends = () => {
+
+
+    const {authuser_details, user_details} = useSelector(state => getUserDetails(state));
+    const status = useSelector(state => getFriendStatus(state));
+    const error = useSelector(state => getFriendStatusError(state));
 
     const dispatch = useDispatch();
 
-    const getFriendsDetails = useCallback(async (auth_id, user_id) => {
+
+    const getFriendsDetails = useCallback(async (auth_id,user_id) => {
         try {
             const header = await headerToken();
 
+            // const auth_id = authuser_details.id;
+            // const user_id = user_details.id;
+           
             if (auth_id !== user_id) {
                 const params = {
                     auth_id: auth_id,
                     user_id: user_id
                 }
-
+                
                 dispatch(doFetchUserFriendStatus(params, header));
             }
         }
@@ -27,9 +37,12 @@ export const useFriends = (auth, user) => {
     }, [])
 
     useEffect(() => {
-        if (auth && user) {
-            getFriendsDetails(auth.uid, user.id);
+        
+        if (authuser_details && user_details) {
+            getFriendsDetails(authuser_details.id,user_details.id);
         }
-    }, [auth, user])
+    }, [authuser_details, user_details])
+
+    return status;
 
 }

@@ -24,8 +24,8 @@ export const useAuthListener = () => {
                 let id = authuser.uid;
             
                 let header = await headerToken();
-                dispatch(doFetchAuthUserDetails(authuser, id, header));
-                dispatch(doFetchUserDetails(authuser, id, header));
+                dispatch(doFetchAuthUserDetails(authuser, {id:id},header));
+                dispatch(doFetchUserDetails(authuser, {id:id}, header));
 
             }
             else {

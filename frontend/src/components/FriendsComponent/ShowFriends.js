@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Cover from '../../assets/images/covers/1.jpg';
 import Navigation from '../Navigation';
-import TImelineHeader from '../TimeLine/TImelineHeader';
+import WrappedComponentTimelineHeader from '../TimeLine/TImelineHeader';
 import { headerToken } from '../Firebase/index';
 import { getUserFriendList , removeUserFriends} from '../../services/User/userData';
 import { getUserDetails } from "../../selectors/user";
@@ -26,9 +26,9 @@ function ShowFriends(props) {
         try {
             const header = await headerToken();
             console.log("inside show friends api fetching", authuser)
-            dispatch(doFetchUserDetails(authuser, params.id, header));
+            dispatch(doFetchUserDetails(authuser, {username:params.username}, header));
 
-            const response = await getUserFriendList(`/api/users/friend_list/${params.id}`, header);
+            const response = await getUserFriendList(`/api/users/friend_list/${params.username}`, header);
             if (response.data.StatusCode === "0") {
                 if (response.data.results.rows.length === 0) {
                     setError("No Friends");
@@ -96,7 +96,7 @@ function ShowFriends(props) {
             <div className="container">
                 <div className="timeline">
                     <div className="timeline-cover">
-                        <TImelineHeader></TImelineHeader>
+                        <WrappedComponentTimelineHeader></WrappedComponentTimelineHeader>
                     </div>
                     <div id="page-contents">
                         <div className="row">
@@ -118,7 +118,7 @@ function ShowFriends(props) {
                                                                     <p className="pull-right text-green" onClick={() => removeFriend(data[item].id)}>Remove Friend</p>
                                                                 }
 
-                                                                <h5><Link to={`/content/${data[item].targetid}`} className="profile-link">{data[item].name}</Link></h5>
+                                                                <h5><Link to={`/content/${data[item].username}`} className="profile-link">{data[item].name}</Link></h5>
                                                             </div>
                                                         </div>
                                                     </div>

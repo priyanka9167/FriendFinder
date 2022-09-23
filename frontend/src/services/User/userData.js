@@ -26,7 +26,19 @@ const userLoggedIn = async (url, payload, header) => {
     }
 }
 
-const userData = async(url, header) => {
+const userDataUsingId = async(url, header) => {
+    console.log("userdata service", url, header)
+    try{
+        let response = await axios.get(`${local_url}${url}`,  header);
+        return response
+    }
+    catch(err)
+    {
+        return err
+    }
+}
+
+const userDataUsingUsername = async(url, header) => {
     console.log("userdata service", url, header)
     try{
         let response = await axios.get(`${local_url}${url}`,  header);
@@ -94,4 +106,26 @@ const removeUserFriends = async (url, header) => {
     }
 }
 
-export { userRegistration, userLoggedIn, userData, updateUserProfile, addUserFriend, userFriendStatus, getUserFriendList, removeUserFriends}
+const getFeedData = async(url, header) => {
+    try{
+        let response = await axios.get(`${local_url}${url}`,  header);
+        return response
+    }
+    catch(err)
+    {
+        return err
+    }
+}
+
+const getFollowersCount = async(url,header) => {
+    try{
+        let response = await axios.get(`${local_url}${url}`,  header);
+        return response
+    }
+    catch(err)
+    {
+        return err
+    } 
+}
+
+export { userRegistration, userLoggedIn, userDataUsingId, userDataUsingUsername, updateUserProfile, addUserFriend, userFriendStatus, getUserFriendList, removeUserFriends, getFeedData, getFollowersCount}

@@ -17,8 +17,8 @@ Post.CreatePost = (postData, callback) => {
     })
 }
 
-Post.GetAllPost = (id, callback) => {
-    postRespository.GetAllPostData(id, (err,results) => {
+Post.GetAllPost = (username, callback) => {
+    postRespository.GetAllPostData(username, (err,results) => {
         if(err)
         {
             callback(err)
@@ -43,8 +43,8 @@ Post.EditPost = (postData, callback) => {
     })
 }
 
-Post.GetPost = (id , callback) => {
-    postRespository.GetPostData(id , (err,results) => {
+Post.GetPost = (username , callback) => {
+    postRespository.GetPostData(username , (err,results) => {
         if(err)
         {
             callback(err)

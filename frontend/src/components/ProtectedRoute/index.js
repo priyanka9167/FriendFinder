@@ -7,8 +7,8 @@ const ProtectedRoute = () => {
   
     const { authuser, user_details, error } =  useAuthListener();
     console.log("inside protected route");
-     useFriends(authuser,user_details);
-    
+
+    const user = useFriends();
    
 
     return (

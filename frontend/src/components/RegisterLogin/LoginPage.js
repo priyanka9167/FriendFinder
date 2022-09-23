@@ -51,12 +51,13 @@ export default function LoginPage() {
               }
               let header = await headerToken();
               let response = await userLoggedIn('/api/users/sign-in', payload, header);
-              console.log('response', response);
+              console.log('response login', response);
               if (response.data.StatusCode === '5') {
                 setError(null);
                 resetForm();
                 console.log("login",authUser)
-                navigate(`/content/${authUser.user.uid}`)
+                let username = response.data.username
+                navigate(`/content/${username}`)
               }
               else {
                 console.log("else")
@@ -75,17 +76,17 @@ export default function LoginPage() {
                 <div className="form-group col-xs-12">
                   <label htmlFor="email" className="sr-only">Email</label>
                   <Field id="email" className="form-control input-group-lg" type="text" name="email" title="Enter Email" placeholder="Your Email" />
-                  <ErrorMessage name='email' component="div" className="invalid-feedback" />
+                  <ErrorMessage name='email' component="div" className="error" />
                 </div>
               </div>
               <div className="row">
                 <div className="form-group col-xs-12">
                   <label htmlFor="password" className="sr-only">Password</label>
                   <Field id="password" className="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password" />
-                  <ErrorMessage name='password' component="div" className="invalid-feedback" />
+                  <ErrorMessage name='password' component="div" className="error" />
                 </div>
               </div>
-              <button className="btn btn-primary">Login Now</button>
+              <button type='submit' className="btn btn-primary">Login Now</button>
               {
                 error && <p>{error}</p>
               }

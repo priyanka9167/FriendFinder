@@ -4,7 +4,6 @@ const local_url = 'http://localhost:5000';
 
 
 const PostData = async (url, payload, header) => {
-    console.log('url', `${local_url}${url}`, header, payload)
     try {
         let response = await axios.post(`${local_url}${url}`, payload, header);
         return response
@@ -15,7 +14,6 @@ const PostData = async (url, payload, header) => {
 }
 
 const getUserPostData = async (url,  header) => {
-    console.log('url', `${local_url}${url}`, header)
     try {
         let response = await axios.get(`${local_url}${url}`, header);
         return response
@@ -26,7 +24,6 @@ const getUserPostData = async (url,  header) => {
 }
 
 const editPostWithID = async (url, payload, header) => {
-    console.log('url', `${local_url}${url}`, header, payload)
     try {
         let response = await axios.post(`${local_url}${url}`, payload, header);
         return response
@@ -37,7 +34,6 @@ const editPostWithID = async (url, payload, header) => {
 }
 
 const deletePostWithId = async (url, header) => {
-    console.log('url', `${local_url}${url}`, header)
     try {
         let response = await axios.delete(`${local_url}${url}`, header);
         return response
@@ -48,7 +44,6 @@ const deletePostWithId = async (url, header) => {
 };
 
 const likeUserPost = async (url, payload, header) => {
-    console.log('url', `${local_url}${url}`, header, payload)
     try {
         let response = await axios.post(`${local_url}${url}`, payload, header);
         return response
@@ -59,7 +54,6 @@ const likeUserPost = async (url, payload, header) => {
 };
 
 const getPostCounts = async (url,  header) => {
-    console.log('url', `${local_url}${url}`, header)
     try {
         let response = await axios.get(`${local_url}${url}`, header);
         return response
@@ -70,7 +64,6 @@ const getPostCounts = async (url,  header) => {
 }
 
 const removeLikesDislikesPost = async (url, payload, header) => {
-    console.log('url', `${local_url}${url}`, header, payload)
     try {
         let response = await axios.put(`${local_url}${url}`, payload, header);
         return response
@@ -81,7 +74,6 @@ const removeLikesDislikesPost = async (url, payload, header) => {
 }
 
 const postComment = async (url, payload, header) => {
-    console.log('url', `${local_url}${url}`, header, payload)
     try {
         let response = await axios.post(`${local_url}${url}`, payload, header);
         return response
@@ -92,7 +84,6 @@ const postComment = async (url, payload, header) => {
 };
 
 const getPostComments = async (url,  header) => {
-    console.log('url', `${local_url}${url}`, header)
     try {
         let response = await axios.get(`${local_url}${url}`, header);
         return response

@@ -10,7 +10,7 @@ function* handleUserFriendsDetails(action) {
        
         console.log("saga response friends", response);
         if (response.data.StatusCode === '0') {
-            console.log("already friend")
+            console.log("already friend", )
             yield put(addUserFriendStatus(true))
         }
         else if(response.data.StatusCode === '1') 

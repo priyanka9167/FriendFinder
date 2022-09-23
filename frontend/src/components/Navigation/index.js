@@ -25,7 +25,7 @@ function Navigation() {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button> */}
-              <a className="navbar-brand" href="index.html"><img src={Logo} alt="logo" /></a>
+             <Link to={`/`} params={{username:authuser_details.username}}><img src={Logo} alt="logo" /></Link>
             </div>
 
             <div className="navbar-header">
@@ -36,7 +36,7 @@ function Navigation() {
                 <span className="icon-bar"></span>
               </button> */}
              <SignOutButton/>
-             <Link to={`/content/${authuser.uid}`}>
+             <Link to={`/content/${authuser_details.username}`}>
              <img src={authuser_details.image} alt="" className="profile-photo-sm profile-image-nav" />
 
              </Link>

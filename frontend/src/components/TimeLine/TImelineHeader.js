@@ -8,6 +8,9 @@ import { getUserDetails, getFetchError } from '../../selectors/user';
 import { getFriendStatus, getFriendStatusError } from '../../selectors/friends';
 import { updateUserProfile, addUserFriend } from '../../services/User/userData';
 import { headerToken } from '../Firebase';
+import { useFriends } from '../Friends';
+import { useFollowers } from '../Followers';
+import {compose} from 'recompose';
 
 
 
@@ -51,7 +54,7 @@ class TImelineHeader extends Component {
             error_friend_status: this.props.friend_error
         }
         console.log("inisde timeline constructor", this.props);
-
+       
     }
 
 
@@ -75,13 +78,14 @@ class TImelineHeader extends Component {
             let file = e.target.files[0];
             if (file) {
                 reader.onloadend = async () => {
-                    let id = this.props.user_details.id
+                    let id = this.props.user_details.id;
+                    let username = this.props.user_details.username;
                     var header = await headerToken();
                     var payload = { id: id, image_url: reader.result }
                     var response = await updateUserProfile('/api/users/update_profile', payload, header);
                     if (response?.data?.StatusCode === '0') {
-                        this.props.onFetchUserDetails(this.props.authuser, id, header);
-                        this.props.onFetchAuthUserDetails(this.props.authuser, id, header);
+                        this.props.onFetchUserDetails(this.props.authuser, {username:username}, header);
+                        this.props.onFetchAuthUserDetails(this.props.authuser, {username:username}, header);
                         this.setState({
                             file_profile: file,
                             imagePreviewUrl_profile: reader.result,
@@ -177,8 +181,8 @@ class TImelineHeader extends Component {
                                                 <ul className="list-inline profile-menu">
                                                     <li><a>Timelines</a></li>
                                                     <li><a>About</a></li>
-                                                    <li><Link to={`/content/${this.props.user_details.id}`}>Album</Link></li>
-                                                    <li><Link to={`/friends/${this.props.user_details.id}`}>Friends</Link></li>
+                                                    <li><Link to={`/content/${this.props.user_details.username}`}>Album</Link></li>
+                                                    <li><Link to={`/friends/${this.props.user_details.username}`}>Friends</Link></li>
                                                     <li><Link to="/create-post">Create-post</Link></li>
                                                 </ul>
 
@@ -232,9 +236,10 @@ class TImelineHeader extends Component {
                                     <ul className="list-inline profile-menu">
                                         <li><a>Timelines</a></li>
                                         <li><a>About</a></li>
-                                        <li><Link to={`/content/${this.props.user_details.id}`}>Album</Link></li>
-                                        <li><Link to={`/friends/${this.props.user_details.id}`}>Friends</Link></li>
+                                        <li><Link to={`/content/${this.props.user_details.username}`}>Album</Link></li>
+                                        <li><Link to={`/friends/${this.props.user_details.username}`}>Friends</Link></li>
                                     </ul>
+                                  
                                     {
 
                                         (this.state.status) ?
@@ -246,6 +251,7 @@ class TImelineHeader extends Component {
                                                 <li className="list-inline-item"><button className="btn-primary" onClick={() => this.addFriend()}>Add Friend</button></li>
                                             </ul>
                                     }
+                                   
                                 </div>
                             </div>
                         </div>
@@ -280,7 +286,25 @@ const mapStateToProps = (state) => {
 };
 
 
+const withFriendsAndFollowers = (Component) => {
+    return (props) => {
+        const status = useFriends();
+        const count = useFollowers();
+       return <Component status={status} count={count} {...props}/>
+       }
+}
+
+const WrappedComponentTimelineHeader = compose(
+    withFriendsAndFollowers,
+    connect(mapStateToProps,mapDispatchToProps)
+)(TImelineHeader)
+
+export default WrappedComponentTimelineHeader;
+
+
+ 
 
 
 
-export default (connect(mapStateToProps, mapDispatchToProps))(TImelineHeader)
+
+// export default (connect(mapStateToProps, mapDispatchToProps))(TImelineHeader)

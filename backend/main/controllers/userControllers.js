@@ -29,8 +29,21 @@ User.SignInUser = (userData , callback) => {
     })
 }
 
-User.GetUserData = (id , callback) => {
-    userRespository.GetUserInfo(id, (err, results) => {
+User.GetUserDataId = (id , callback) => {
+    userRespository.GetUserInfoId(id, (err, results) => {
+        if(err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback(null,results)
+        }
+    })
+}
+
+User.GetUserDataUsername = (username , callback) => {
+    userRespository.GetUserInfoUsername(username, (err, results) => {
         if(err)
         {
             callback(err)
@@ -92,6 +105,30 @@ User.GetUserFriendData = (userData,callback) => {
 
 User.RemoveFriend = (userData,callback) => {
     userRespository.RemoveUserFriendRequest(userData,(err,results) => {
+        if(err)
+        {
+            callback(err);
+        }
+        else{
+            callback(null,results);
+        }
+    })
+}
+
+User.GetFeedData = (id, callback) => {
+    userRespository.GetFeedDataRequest(id,(err,results) => {
+        if(err)
+        {
+            callback(err);
+        }
+        else{
+            callback(null,results);
+        }
+    })
+}
+
+User.GetFollowerCount = (id,callback) => {
+    userRespository.GetFollowerCountRequest(id,(err,results) => {
         if(err)
         {
             callback(err);

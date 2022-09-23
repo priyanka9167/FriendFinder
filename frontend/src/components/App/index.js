@@ -6,6 +6,7 @@ import CreatePost from '../Posts/CreatePost';
 import ShowPostFunctional from '../Posts/ShowPost';
 import RegisterLogin from '../RegisterLogin';
 import ShowFriends from '../FriendsComponent/ShowFriends';
+import Feeds from '../Feeds';
 
 function App(props) {
 
@@ -15,11 +16,14 @@ function App(props) {
 
     <Router>
       <Routes>
-        <Route exact path='/content/:id' element={<ProtectedRoute/>}>
-          <Route exact path='/content/:id' element={<ShowPostFunctional/>}/>
+      <Route exact path='/' element={<ProtectedRoute/>}>
+          <Route exact path='/' element={<Feeds/>}/>
         </Route>
-        <Route exact path='/friends/:id' element={<ProtectedRoute/>}>
-          <Route exact path='/friends/:id' element={<ShowFriends/>}/>
+        <Route exact path='/content/:username' element={<ProtectedRoute/>}>
+          <Route exact path='/content/:username' element={<ShowPostFunctional/>}/>
+        </Route>
+        <Route exact path='/friends/:username' element={<ProtectedRoute/>}>
+          <Route exact path='/friends/:username' element={<ShowFriends/>}/>
         </Route>
         <Route exact path='/create-post' element={<ProtectedRoute/>}>
           <Route exact path='/create-post' element={<CreatePost/>}/>

@@ -27,9 +27,9 @@ userData.SignInData = (userData, callback) => {
         }
         else {
             if (results.rows[0].passwordhash === password) {
-                var id = results.rows[0].id
+                var username = results.rows[0].username
 
-                callback(null, { "StatusCode": "5", "msg": "You are now logged in", id })
+                callback(null, { "StatusCode": "5", "msg": "You are now logged in", username })
             }
             else {
                 callback({ "StatusCode": "4", "msg": "Wrong Password" })
@@ -39,8 +39,21 @@ userData.SignInData = (userData, callback) => {
     })
 }
 
-userData.GetUserInfo = (id, callback) => {
-    pool.query(`SELECT * from users WHERE id = $1`, [id], (error, results) => {
+userData.GetUserInfoId = (id, callback) => {
+    pool.query('SELECT * from users WHERE id = $1', [id], (error, results) => {
+
+        if (error) {
+            callback(error)
+        }
+        else {
+            callback(null, results)
+        }
+
+    })
+}
+
+userData.GetUserInfoUsername = (username, callback) => {
+    pool.query('SELECT * from users WHERE username = $1', [username], (error, results) => {
 
         if (error) {
             callback(error)
@@ -101,8 +114,8 @@ userData.CheckUserFriendStatusRequest = (userData, callback) => {
     })
 }
 
-userData.GetUserFriendDataRequest = (id, callback) => {
-    pool.query(`SELECT user_friend.targetid,user_friend.id, users.name, users.image from user_friend,users WHERE user_friend.targetid  = users.id and user_friend.sourceid = $1`, [id], (error, results) => {
+userData.GetUserFriendDataRequest = (username, callback) => {
+    pool.query(`SELECT uf.id,uf.targetid,u.username,u.image,u.name from users u inner join user_friend uf on u.id = uf.targetid left join users us on uf.sourceid = us.id where us.username = $1`, [username], (error, results) => {
         if (error) {
             callback(error)
         }
@@ -123,8 +136,35 @@ userData.RemoveUserFriendRequest = (id, callback) => {
         else{
             callback(null,results)
         }
-    })
+    });
 }
+
+userData.GetFeedDataRequest = (id,callback) => {
+    pool.query(`SELECT uf.targetid, up.*,u.image, u.username from user_post up inner join  user_friend uf on uf.sourceid = $1 inner join users u on uf.targetid = u.id where uf.targetid = up.user_id order by createdate desc`,[id],(error,results) => {
+        if(error)
+        {
+            callback(error)
+        }
+        else{
+            callback(null,results)
+        }
+    });
+};
+
+userData.GetFollowerCountRequest = (id,callback) => {
+    pool.query('SELECT count(*) from user_friend where sourceid = $1', [id], (error,results) => {
+        if(error)
+        {
+            callback(error)
+        }
+        else{
+            callback(null,results)
+        }
+    });
+    
+}
+
+
 
 
 module.exports = userData
