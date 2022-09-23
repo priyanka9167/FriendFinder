@@ -1,19 +1,35 @@
 import { call, put } from 'redux-saga/effects';
-import {  doFetchErrorUser,doAddAuthUserDetails } from '../action-initiators/simpleAction';
-import { userData } from '../services/User/userData';
+import { doFetchErrorUser, doAddAuthUserDetails } from '../action-initiators/simpleAction';
+import { userDataUsingId, userDataUsingUsername } from '../services/User/userData';
 
 function* handleAuthUserDetails(action) {
     const { query, header } = action;
+    const url = query.id ? `/api/users/getUserDataUsingId/${query.id}` : `/api/users/getUserDataUsingUsername/${query.username}`
+    console.log("authuser saga", url);
     try {
-        const response = yield call(userData, `/api/users/getUserData/${query}`, header);
-        console.log("saga response", response);
-        if (response.data.StatusCode === '0') {
-            yield put(doAddAuthUserDetails(action.authuser,response?.data?.results?.rows[0]));
-          
+        if (query.id) {
+            const response = yield call(userDataUsingId, url, header);
+            console.log("saga response", response);
+            if (response.data.StatusCode === '0') {
+                yield put(doAddAuthUserDetails(action.authuser, response?.data?.results?.rows[0]));
+
+            }
+            else {
+                yield put(doFetchErrorUser(response.data.msg))
+            }
         }
         else {
-            yield put(doFetchErrorUser(response.data.msg))
+            const response = yield call(userDataUsingUsername, url, header);
+            console.log("saga response", response);
+            if (response.data.StatusCode === '0') {
+                yield put(doAddAuthUserDetails(action.authuser, response?.data?.results?.rows[0]));
+
+            }
+            else {
+                yield put(doFetchErrorUser(response.data.msg))
+            }
         }
+
 
     }
     catch (error) {

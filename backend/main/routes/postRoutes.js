@@ -19,10 +19,10 @@ router.post('/add-post', decodeIDToken, (req, res) => {
 
 })
 
-router.get('/getPostData/:id', decodeIDToken, (req, res) => {
-    const id = req.params.id;
-    console.log("username",id);
-    postControllers.GetAllPost(id, (err, results) => {
+router.get('/getPostData/:username', decodeIDToken, (req, res) => {
+    const username = req.params.username;
+    console.log("username",username);
+    postControllers.GetAllPost(username, (err, results) => {
         if (err) {
             return res.send({ "StatusCode": "2", "msg": "Something Went Wrong" })
         }

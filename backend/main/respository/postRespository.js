@@ -17,11 +17,12 @@ postData.CreatePostData = (postData, callback) => {
 
 }
 
-postData.GetAllPostData = (id, callback) => {
-    console.log("respost id", id)
-    pool.query(`SELECT * from user_post WHERE user_id = $1`, [id], (error, results) => {
+postData.GetAllPostData = (username, callback) => {
+    console.log("respost id", username)
+    pool.query(`SELECT up.* from user_post up, users u WHERE u.username = $1 AND up.user_id = u.id`, [username], (error, results) => {
 
         if (error) {
+            console.log("repost",error)
             callback(error)
         }
         else {
@@ -44,8 +45,8 @@ postData.EditPostData = (postData, callback) => {
     })
 }
 
-postData.GetPostData = (id, callback) => {
-    pool.query(`SELECT * from user_post WHERE id = $1`, [id], (error, results) => {
+postData.GetPostData = (username, callback) => {
+    pool.query(`SELECT up.* from user_post up, users u WHERE u.username = &1 AND up.user_id = u.id`, [username], (error, results) => {
         if (error) {
             callback(error)
         }
@@ -59,6 +60,7 @@ postData.GetPostData = (id, callback) => {
 postData.DeletePostData = (id, callback) => {
     pool.query(`DELETE from user_post WHERE id=$1`, [id], (error, results) => {
         if (error) {
+            console.log("Delete post",error)
             callback(error)
         }
         else {
