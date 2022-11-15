@@ -28,5 +28,9 @@ const postRoutes = require('./routes/postRoutes')
 
 app.use('/api/users' , userRoutes)
 app.use('/api/post', postRoutes)
+app.use('/test', (req, res) => {
+    console.log('Request Type:', req.method)
+    
+  })
 
 module.exports = app;

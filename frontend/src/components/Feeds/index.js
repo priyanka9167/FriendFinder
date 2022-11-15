@@ -16,7 +16,7 @@ export default function Feeds() {
   const { authuser, user_details, authuser_details } = useSelector(state => getUserDetails(state));
   const auth_id = authuser_details.id;
 
-  const count = useFollowers();
+  const count = useFollowers(auth_id);
 
   const fetchFeed = useCallback(async (auth_id) => {
     try {
@@ -54,7 +54,7 @@ export default function Feeds() {
         <div className='col-md-5 mr-auto'>
           <div className="profile-card">
             <img src={authuser_details.image} alt="user" className="profile-photo" />
-            <h5><a href="timeline.html" className="text-white">{authuser_details.name}</a></h5>
+            <h5><Link to={`/content/${authuser_details.username}`} className="text-white">{authuser_details.name}</Link></h5>
             {
               count && 
               <Link to={`/friends/${authuser_details.username}`}><i className="ion ion-android-person-add"></i> {count} friends</Link>
