@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useParams } from 'react-router-dom';
 import { getUserPostData } from '../../services/posts/postData';
 import Navigation from '../Navigation';
-import WrappedComponentTimelineHeader from '../TimeLine/TImelineHeader';
+import TImelineHeader from '../TimeLine/TImelineHeader';
 import { getUserDetails, getFetchError } from '../../selectors/user';
 import EditPost from './EditPost';
 import { connect } from 'react-redux';
@@ -136,7 +136,7 @@ class ShowPost extends Component {
                 <div className="container">
                     <div className="timeline">
                         <div className="timeline-cover">
-                            <WrappedComponentTimelineHeader></WrappedComponentTimelineHeader>
+                            <TImelineHeader></TImelineHeader>
                         </div>
                         <div id="page-contents">
                             <div className="row">

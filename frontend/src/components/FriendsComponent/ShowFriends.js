@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Cover from '../../assets/images/covers/1.jpg';
 import Navigation from '../Navigation';
-import WrappedComponentTimelineHeader from '../TimeLine/TImelineHeader';
+import TImelineHeader from '../TimeLine/TImelineHeader';
 import { headerToken } from '../Firebase/index';
 import { getUserFriendList , removeUserFriends} from '../../services/User/userData';
 import { getUserDetails } from "../../selectors/user";
@@ -96,7 +96,7 @@ function ShowFriends(props) {
             <div className="container">
                 <div className="timeline">
                     <div className="timeline-cover">
-                        <WrappedComponentTimelineHeader></WrappedComponentTimelineHeader>
+                        <TImelineHeader></TImelineHeader>
                     </div>
                     <div id="page-contents">
                         <div className="row">

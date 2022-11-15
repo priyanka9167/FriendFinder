@@ -9,3 +9,5 @@ const getFriendStatus = ({friendState}) =>
 const getFriendStatusError = ({friendState}) => friendState.error;
 
 export {getFriendStatus,getFriendStatusError}
+
+

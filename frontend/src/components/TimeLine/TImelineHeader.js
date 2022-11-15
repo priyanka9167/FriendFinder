@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { doFetchUserDetails, doFetchErrorUser, doFetchUserFriendStatus, doFetchFriendStatusError,doFetchAuthUserDetails } from '../../action-initiators/simpleAction';
+import { doFetchUserDetails, doFetchErrorUser, doFetchUserFriendStatus, doFetchFriendStatusError, doFetchAuthUserDetails } from '../../action-initiators/simpleAction';
 import { connect } from 'react-redux';
 import { getUserDetails, getFetchError } from '../../selectors/user';
 import { getFriendStatus, getFriendStatusError } from '../../selectors/friends';
@@ -10,7 +10,7 @@ import { updateUserProfile, addUserFriend } from '../../services/User/userData';
 import { headerToken } from '../Firebase';
 import { useFriends } from '../Friends';
 import { useFollowers } from '../Followers';
-import {compose} from 'recompose';
+import { compose } from 'recompose';
 
 
 
@@ -54,7 +54,7 @@ class TImelineHeader extends Component {
             error_friend_status: this.props.friend_error
         }
         console.log("inisde timeline constructor", this.props);
-       
+
     }
 
 
@@ -84,8 +84,8 @@ class TImelineHeader extends Component {
                     var payload = { id: id, image_url: reader.result }
                     var response = await updateUserProfile('/api/users/update_profile', payload, header);
                     if (response?.data?.StatusCode === '0') {
-                        this.props.onFetchUserDetails(this.props.authuser, {username:username}, header);
-                        this.props.onFetchAuthUserDetails(this.props.authuser, {username:username}, header);
+                        this.props.onFetchUserDetails(this.props.authuser, { username: username }, header);
+                        this.props.onFetchAuthUserDetails(this.props.authuser, { username: username }, header);
                         this.setState({
                             file_profile: file,
                             imagePreviewUrl_profile: reader.result,
@@ -185,7 +185,7 @@ class TImelineHeader extends Component {
                                                     <li><Link to={`/friends/${this.props.user_details.username}`}>Friends</Link></li>
                                                     <li><Link to="/create-post">Create-post</Link></li>
                                                 </ul>
-
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -239,9 +239,8 @@ class TImelineHeader extends Component {
                                         <li><Link to={`/content/${this.props.user_details.username}`}>Album</Link></li>
                                         <li><Link to={`/friends/${this.props.user_details.username}`}>Friends</Link></li>
                                     </ul>
-                                  
-                                    {
 
+                                    {
                                         (this.state.status) ?
                                             <ul className="follow-me list-inline">
                                                 <li className="list-inline-item"><button className="btn-primary">Friend</button></li>
@@ -251,7 +250,7 @@ class TImelineHeader extends Component {
                                                 <li className="list-inline-item"><button className="btn-primary" onClick={() => this.addFriend()}>Add Friend</button></li>
                                             </ul>
                                     }
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -266,7 +265,7 @@ class TImelineHeader extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
     onFetchUserDetails: (authuser, query, header) => dispatch(doFetchUserDetails(authuser, query, header)),
-    onFetchAuthUserDetails:(authuser,query,header) => dispatch(doFetchAuthUserDetails(authuser,query,header)),
+    onFetchAuthUserDetails: (authuser, query, header) => dispatch(doFetchAuthUserDetails(authuser, query, header)),
     onFetchUserError: (error) => dispatch(doFetchErrorUser(error)),
     onFetchUserFriendStatus: (params, header) => dispatch(doFetchUserFriendStatus(params, header)),
     onFetchUserFriendStatusError: (error) => dispatch(doFetchFriendStatusError(error))
@@ -286,25 +285,15 @@ const mapStateToProps = (state) => {
 };
 
 
-const withFriendsAndFollowers = (Component) => {
-    return (props) => {
-        const status = useFriends();
-        const count = useFollowers();
-       return <Component status={status} count={count} {...props}/>
-       }
-}
-
-const WrappedComponentTimelineHeader = compose(
-    withFriendsAndFollowers,
-    connect(mapStateToProps,mapDispatchToProps)
-)(TImelineHeader)
-
-export default WrappedComponentTimelineHeader;
-
-
- 
 
 
 
 
-// export default (connect(mapStateToProps, mapDispatchToProps))(TImelineHeader)
+
+
+
+
+
+
+
+export default (connect(mapStateToProps, mapDispatchToProps))(TImelineHeader)

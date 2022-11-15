@@ -8,8 +8,7 @@ export const userInitialFriendStatus = {
 
 
 const applyAddFriendStatus = (state,action) => ({
- 
-    ...state,
+  ...state,
     status:action.status,
    error:null
 });

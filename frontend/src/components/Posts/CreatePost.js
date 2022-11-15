@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Navigation from '../Navigation';
-import WrappedComponentTimelineHeader from '../TimeLine/TImelineHeader';
+import TImelineHeader from '../TimeLine/TImelineHeader';
 import * as Yup from 'yup';
 import { headerToken } from '../Firebase';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -104,7 +104,7 @@ function CreatePost(props) {
             <div className="container">
                 <div className="timeline">
                     <div className="timeline-cover">
-                        <WrappedComponentTimelineHeader />
+                        <TImelineHeader />
                     </div>
                     <div id="page-contents">
                         <div className="row">
