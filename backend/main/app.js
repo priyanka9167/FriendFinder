@@ -33,4 +33,7 @@ app.use('/test', (req, res) => {
     res.send("Recorded");
   })
 
-module.exports = app;
+// module.exports = app;
+
+const port = 5000;
+app.listen(port, ()=> console.log("server started on port - ", port));
