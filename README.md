@@ -1,7 +1,21 @@
 # FriendFinder
-This project is a clone of the Instagram web app, built using ReactJS and NodeJS, ExpressJS and connected to a Firebase to improve its functionality - from signing up to uploading posts, and adding comments,likes to posts.
+This project is a clone of the Instagram web app, built using ReactJS and NodeJS, ExpressJS, Postgres and connected to a Firebase to improve its functionality - from signing up to uploading posts, and adding comments,likes to posts.
 
 
 ## Available Scripts
-After forking or cloning the repo, you can run the following in the app directory:
+
+In the project directory, you can run:
+
+
+## FrontEnd 
+### `npm install`
+### `npm start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## BackEnd 
+### `npm install`
+### `npm start`
+Open [http://localhost:5000](http://localhost:5000)
 
