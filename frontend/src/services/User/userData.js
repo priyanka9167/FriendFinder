@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const local_url = 'http://localhost:5000';
+// const local_url = 'http://localhost:5000';
+const local_url = 'http://161.35.114.245';
+
 
 
 
